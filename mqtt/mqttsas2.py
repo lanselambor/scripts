@@ -21,7 +21,8 @@ from __future__ import print_function
 import MQTTV3112 as MQTTV3
 
 import socket, sys, select, traceback, datetime, os
-import SocketServer as socketserver
+# import SocketServer as socketserver
+import socketserver
 
 logging = True
 myWindow = None
@@ -93,21 +94,21 @@ class ThreadingTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
 
 def run():
   global brokerhost, brokerport
-  myhost = '127.0.0.1'
+  myhost = '0.0.0.0'
   if len(sys.argv) > 1:
     brokerhost = sys.argv[1]
   else:
-    brokerhost = '127.0.0.1'
+    brokerhost = '0.0.0.0'
 
   if len(sys.argv) > 2:
     brokerport = int(sys.argv[2])
   else:
-    brokerport = 1883
+    brokerport = 1885
 
   if brokerhost == myhost:
     myport = brokerport + 1
   else:
-    myport = 1883
+    myport = 1885
 
   print("Listening on port", str(myport)+", broker on port", brokerport)
   s = ThreadingTCPServer(("", myport), MyHandler)
